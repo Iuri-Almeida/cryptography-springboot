@@ -3,7 +3,6 @@ package br.com.ialmeida.cryptographyspringboot.resources;
 import br.com.ialmeida.cryptographyspringboot.entities.User;
 import br.com.ialmeida.cryptographyspringboot.resources.util.URL;
 import br.com.ialmeida.cryptographyspringboot.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,11 +16,14 @@ import java.util.List;
 @RequestMapping(value = "/api/users")
 public class UserResource {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
+
+    public UserResource(UserService userService, PasswordEncoder encoder) {
+        this.userService = userService;
+        this.encoder = encoder;
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
@@ -71,8 +73,8 @@ public class UserResource {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
-        User obj = userService.update(id, user);
-        return ResponseEntity.ok().body(obj);
+        user = userService.update(id, user);
+        return ResponseEntity.ok().body(user);
     }
 
 }

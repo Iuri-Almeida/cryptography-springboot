@@ -2,7 +2,6 @@ package br.com.ialmeida.cryptographyspringboot.config;
 
 import br.com.ialmeida.cryptographyspringboot.entities.User;
 import br.com.ialmeida.cryptographyspringboot.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,8 +12,11 @@ import java.util.Arrays;
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public TestConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
