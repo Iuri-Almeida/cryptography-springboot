@@ -3,6 +3,7 @@ package br.com.ialmeida.cryptographyspringboot.services;
 import br.com.ialmeida.cryptographyspringboot.entities.User;
 import br.com.ialmeida.cryptographyspringboot.repositories.UserRepository;
 import br.com.ialmeida.cryptographyspringboot.services.exceptions.DatabaseException;
+import br.com.ialmeida.cryptographyspringboot.services.exceptions.DuplicateLoginException;
 import br.com.ialmeida.cryptographyspringboot.services.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,6 +35,12 @@ public class UserService {
     }
 
     public User insert(User user) {
+        User obj = findByLogin(user.getLogin());
+
+        if (obj != null) {
+            throw new DuplicateLoginException(user.getLogin());
+        }
+
         return userRepository.save(user);
     }
 
