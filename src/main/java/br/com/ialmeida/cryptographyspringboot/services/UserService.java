@@ -28,8 +28,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public User findByName(String name) {
-        Optional<User> user = userRepository.findByName(name);
+    public User findByLogin(String login) {
+        Optional<User> user = userRepository.findByLogin(login);
         return user.isEmpty() ? null : user.get();
     }
 
@@ -54,7 +54,7 @@ public class UserService {
     }
 
     private void updateData(User entity, User user) {
-        entity.setName(user.getName());
+        entity.setLogin(user.getLogin());
     }
 
 }

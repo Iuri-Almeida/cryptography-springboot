@@ -39,12 +39,12 @@ public class UserResource {
 
     @GetMapping(value = "/validate")
     public ResponseEntity<Boolean> validatePassword(
-            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "login", defaultValue = "") String login,
             @RequestParam(value = "password", defaultValue = "") String password) {
-        name = URL.decodeParam(name);
+        login = URL.decodeParam(login);
         password = URL.decodeParam(password);
 
-        User user = userService.findByName(name);
+        User user = userService.findByLogin(login);
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
