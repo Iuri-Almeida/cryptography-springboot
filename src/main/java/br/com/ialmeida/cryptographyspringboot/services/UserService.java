@@ -2,6 +2,7 @@ package br.com.ialmeida.cryptographyspringboot.services;
 
 import br.com.ialmeida.cryptographyspringboot.entities.User;
 import br.com.ialmeida.cryptographyspringboot.repositories.UserRepository;
+import br.com.ialmeida.cryptographyspringboot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Id " + id + " not found."));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User findByName(String name) {
