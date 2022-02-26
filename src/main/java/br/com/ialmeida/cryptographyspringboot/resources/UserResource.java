@@ -3,6 +3,7 @@ package br.com.ialmeida.cryptographyspringboot.resources;
 import br.com.ialmeida.cryptographyspringboot.entities.User;
 import br.com.ialmeida.cryptographyspringboot.resources.util.URL;
 import br.com.ialmeida.cryptographyspringboot.services.UserService;
+import br.com.ialmeida.cryptographyspringboot.services.exceptions.BlankFieldException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,6 +60,9 @@ public class UserResource {
 
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user) {
+        if (user.getLogin().isBlank() || user.getPassword().isBlank()) {
+            throw new BlankFieldException("Some fields can not be blank.");
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         user = userService.insert(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
