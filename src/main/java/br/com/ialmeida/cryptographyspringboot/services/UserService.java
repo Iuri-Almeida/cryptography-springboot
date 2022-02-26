@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,6 +20,11 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Id " + id + " not found."));
+    }
+
+    public User findByName(String name) {
+        Optional<User> user = userRepository.findByName(name);
+        return user.isEmpty() ? null : user.get();
     }
 
     public User insert(User user) {
